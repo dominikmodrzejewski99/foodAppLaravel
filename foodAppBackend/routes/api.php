@@ -10,4 +10,3 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('restaurants', RestaurantController::class);
 
-
