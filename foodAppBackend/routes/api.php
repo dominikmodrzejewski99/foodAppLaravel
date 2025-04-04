@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PollController;
 use App\Http\Controllers\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -10,3 +11,5 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('restaurants', RestaurantController::class);
 
+Route::get('/questions', [PollController::class, 'getQuestions']);
+Route::get('/answers', [PollController::class, 'getAnswers']);
