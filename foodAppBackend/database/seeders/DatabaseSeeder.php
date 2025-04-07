@@ -19,5 +19,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Uruchom seedery dla pytań, odpowiedzi i restauracji
+        $this->call([
+            QuestionsTableSeeder::class,
+            AnswersTableSeeder::class,
+            RestaurantSeeder::class,
+            AnswerRestaurantSeeder::class,
+        ]);
     }
 }

@@ -4,11 +4,18 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Restaurant;
+use Illuminate\Support\Facades\DB;
 
 class RestaurantSeeder extends Seeder
 {
     public function run(): void
     {
+        // Najpierw usuwamy wszystkie powiązania z tabeli answer_restaurant
+        DB::table('answer_restaurant')->delete();
+
+        // Następnie usuwamy wszystkie istniejące restauracje
+        DB::table('restaurants')->delete();
+
         $restaurants = [
             [
                 'name'     => 'Restauracja Konspira',
@@ -409,6 +416,137 @@ class RestaurantSeeder extends Seeder
                 'cuisine'  => 'Międzynarodowa',
                 'rating'   => 4.0,
                 'website'  => 'http://restauracjanarynku.pl',
+            ],
+            // Popularne restauracje z TikToka
+            [
+                'name'     => 'Pasibus',
+                'address'  => 'ul. Świdnicka 11, 50-066 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Burgery',
+                'rating'   => 4.7,
+                'website'  => 'https://pasibus.pl',
+                'description' => 'Kultowe burgery z Wrocławia, które podbiły serca mieszkańców i turystów. Pasibus słynie z soczystych burgerów z wysokiej jakości wołowiny i autorskich sosów.',
+                'image_url' => 'https://example.com/images/pasibus.jpg',
+                'price_level' => 2.5,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 95,
+            ],
+            [
+                'name'     => 'Panczo',
+                'address'  => 'ul. Św. Antoniego 35, 50-073 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Meksykańska',
+                'rating'   => 4.6,
+                'website'  => 'https://panczo.pl',
+                'description' => 'Autentyczna kuchnia meksykańska w sercu Wrocławia. Panczo oferuje pyszne tacos, burrito i quesadillas, a także szeroki wybór tequili i koktajli.',
+                'image_url' => 'https://example.com/images/panczo.jpg',
+                'price_level' => 2.8,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 90,
+            ],
+            [
+                'name'     => 'Kohana Sushi Bar',
+                'address'  => 'ul. Agrestowa 142, 52-200 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Japońska, Sushi',
+                'rating'   => 4.8,
+                'website'  => 'https://kohanasushi.pl',
+                'description' => 'Najlepsze sushi we Wrocławiu według wielu recenzji. Kohana Sushi Bar oferuje świeże, wysokiej jakości sushi przygotowywane przez doświadczonych kucharzy.',
+                'image_url' => 'https://example.com/images/kohana.jpg',
+                'price_level' => 3.5,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 88,
+            ],
+            [
+                'name'     => 'Giro',
+                'address'  => 'ul. Krakowska 182, 50-428 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Włoska, Pizza',
+                'rating'   => 4.7,
+                'website'  => 'https://giro.pizza',
+                'description' => 'Autentyczna włoska pizzeria z piecem opalanym drewnem. Giro słynie z cienkiego, chrupiącego ciasta i wysokiej jakości składników sprowadzanych prosto z Włoch.',
+                'image_url' => 'https://example.com/images/giro.jpg',
+                'price_level' => 3.0,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 85,
+            ],
+            [
+                'name'     => 'Neobab',
+                'address'  => 'ul. Reja 47, 50-343 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Kebab, Turecka',
+                'rating'   => 4.5,
+                'website'  => 'https://neobab.pl',
+                'description' => 'Nowoczesny kebab z najwyższej jakości składników. Neobab wyróżnia się na tle innych kebabów we Wrocławiu dzięki wysokiej jakości mięsu i świeżym dodatkom.',
+                'image_url' => 'https://example.com/images/neobab.jpg',
+                'price_level' => 2.0,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 82,
+            ],
+            [
+                'name'     => 'Krasnolód',
+                'address'  => 'ul. Oławska 27, 50-123 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Lodziarnia, Desery',
+                'rating'   => 4.9,
+                'website'  => 'https://krasnolod.pl',
+                'description' => 'Rzemieślnicze lody robione z naturalnych składników. Krasnolód oferuje szeroki wybór oryginalnych smaków, które zmieniają się sezonowo.',
+                'image_url' => 'https://example.com/images/krasnolod.jpg',
+                'price_level' => 2.2,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 94,
+            ],
+            [
+                'name'     => 'Mio Gelato',
+                'address'  => 'ul. Zwycięska 45, 53-033 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Lodziarnia, Włoska',
+                'rating'   => 4.8,
+                'website'  => 'https://mio-gelato.pl',
+                'description' => 'Autentyczne włoskie gelato przygotowywane według tradycyjnych receptur. Mio Gelato oferuje bogaty wybór smaków, w tym opcje wegańskie.',
+                'image_url' => 'https://example.com/images/mio-gelato.jpg',
+                'price_level' => 2.3,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 89,
+            ],
+            [
+                'name'     => 'Lody z Krzyckiej',
+                'address'  => 'ul. Krzycka 1C, 53-020 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Lodziarnia, Desery',
+                'rating'   => 4.7,
+                'website'  => 'https://lodyzkrzyckiej.pl',
+                'description' => 'Rzemieślnicze lody o nietuzinkowych smakach. Lody z Krzyckiej słyną z oryginalnych połączeń smaków i wysokiej jakości składników.',
+                'image_url' => 'https://example.com/images/lody-z-krzyckiej.jpg',
+                'price_level' => 2.1,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 86,
+            ],
+            [
+                'name'     => 'Lody na Zawalnej',
+                'address'  => 'ul. Zawalna 1b, 50-001 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Lodziarnia, Desery',
+                'rating'   => 4.6,
+                'website'  => 'https://lodynazawalnej.pl',
+                'description' => 'Kultowa lodziarnia działająca od 1988 roku. Lody na Zawalnej to miejsce, które odwiedzają pokolenia wrocławian, słynące z tradycyjnych, kremowych lodów.',
+                'image_url' => 'https://example.com/images/lody-na-zawalnej.jpg',
+                'price_level' => 1.9,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 84,
+            ],
+            [
+                'name'     => 'Shisha Lounge RS Storm',
+                'address'  => 'ul. Traugutta 65/1a, 50-417 Wrocław',
+                'city'     => 'Wrocław',
+                'cuisine'  => 'Orientalna, Fusion',
+                'rating'   => 4.5,
+                'website'  => 'https://rs-storm.pl',
+                'description' => 'Ekskluzywny lounge bar z szerokim wyborem fajek wodnych i koktajli. RS Storm oferuje również menu z potrawami kuchni orientalnej i fusion.',
+                'image_url' => 'https://example.com/images/rs-storm.jpg',
+                'price_level' => 4.0,
+                'is_tiktok_recommended' => true,
+                'popularity_score' => 91,
             ],
         ];
 
