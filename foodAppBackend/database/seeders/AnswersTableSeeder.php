@@ -18,25 +18,42 @@ class AnswersTableSeeder extends Seeder
         $answers = [];
 
         foreach ($questions as $question) {
-            if ($question->question_text == 'Jaki budżet planujecie przeznaczyć na tę wizytę?') {
-                $answers[] = ['answer_text' => 'Do 100 zł', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Od 100 zł do 200 zł', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Od 200 zł do 500 zł', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Powyżej 500 zł', 'question_id' => $question->id];
+            if ($question->question_text == 'Ilość osób') {
+                $answers[] = ['answer_text' => 'jedna', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'dwie', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'trzy', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'cztery i więcej', 'question_id' => $question->id];
             }
 
-            if ($question->question_text == 'Ilu gości planujecie przyprowadzić do naszej restauracji?') {
-                $answers[] = ['answer_text' => 'Będziemy w dwie osoby', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Będziemy w trzy osoby', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Będziemy w cztery osoby', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Będziemy w pięć osób', 'question_id' => $question->id];
+            if ($question->question_text == 'Maksymalna kwota na osobę') {
+                $answers[] = ['answer_text' => 'Do 30 zł', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => '30 - 50 zł', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => '50 - 80 zł', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'kwota nie ma znaczenia', 'question_id' => $question->id];
             }
 
-            if ($question->question_text == 'Jaki będzie charakter tej wizyty?') {
-                $answers[] = ['answer_text' => 'Romantyczny', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Biznesowy', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Przyjacielski', 'question_id' => $question->id];
-                $answers[] = ['answer_text' => 'Rodzinny', 'question_id' => $question->id];
+            if ($question->question_text == 'Rodzaj posiłku') {
+                $answers[] = ['answer_text' => 'sniadanie', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'lunch', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'obiad', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'kolacja', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'deser', 'question_id' => $question->id];
+            }
+
+            if ($question->question_text == 'Cel wizyty') {
+                $answers[] = ['answer_text' => 'Spotkanie biznesowe', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Świętowanie (urodziny, rocznica itp.)', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Wydarzenie towarzyskie', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Rodzinna uroczystość', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Rekreacja', 'question_id' => $question->id];
+            }
+
+            if ($question->question_text == 'Preferencje dietetyczne') {
+                $answers[] = ['answer_text' => 'Wegetariańska', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Wegańska', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Bezglutenowa', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Bez laktozy', 'question_id' => $question->id];
+                $answers[] = ['answer_text' => 'Brak preferencji', 'question_id' => $question->id];
             }
         }
 

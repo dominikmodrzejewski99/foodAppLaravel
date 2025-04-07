@@ -413,6 +413,13 @@ class RestaurantSeeder extends Seeder
         ];
 
         foreach ($restaurants as $restaurant) {
+            // Dodanie losowych wartości dopasowania dla każdej restauracji
+            $restaurant['match_people_count'] = rand(0, 9);
+            $restaurant['match_price_per_person'] = rand(0, 9);
+            $restaurant['match_meal_type'] = rand(0, 9);
+            $restaurant['match_visit_purpose'] = rand(0, 9);
+            $restaurant['match_dietary_preferences'] = rand(0, 9);
+
             Restaurant::create($restaurant);
         }
     }

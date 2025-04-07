@@ -13,3 +13,6 @@ Route::apiResource('restaurants', RestaurantController::class);
 
 Route::get('/questions', [PollController::class, 'getQuestions']);
 Route::get('/answers', [PollController::class, 'getAnswers']);
+
+// Trasa do obliczania dopasowania restauracji
+Route::post('/matching', [\App\Http\Controllers\MatchingController::class, 'calculateMatching']);

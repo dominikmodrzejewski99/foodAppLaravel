@@ -14,9 +14,11 @@ class QuestionsTableSeeder extends Seeder
     public function run()
     {
         DB::table('questions')->insert([
-            ['question_text' => 'Jaki budżet planujecie przeznaczyć na tę wizytę?'],
-            ['question_text' => 'Ilu gości planujecie przyprowadzić do naszej restauracji?'],
-            ['question_text' => 'Jaki będzie charakter tej wizyty?'],
+            ['question_text' => 'Ilość osób'],
+            ['question_text' => 'Maksymalna kwota na osobę'],
+            ['question_text' => 'Rodzaj posiłku'],
+            ['question_text' => 'Cel wizyty'],
+            ['question_text' => 'Preferencje dietetyczne'],
         ]);
     }
 }
