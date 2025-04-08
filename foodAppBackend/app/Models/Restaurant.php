@@ -21,7 +21,18 @@ class Restaurant extends Model
         'match_price_per_person',
         'match_meal_type',
         'match_visit_purpose',
-        'match_dietary_preferences'
+        'match_dietary_preferences',
+        'match_score'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'match_score' => 'float',
+        'rating' => 'float',
     ];
 
     /**

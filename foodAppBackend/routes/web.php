@@ -31,4 +31,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('restaurants/blade/{restaurant}/edit', [\App\Http\Controllers\Admin\RestaurantAdminBladeController::class, 'edit'])->name('restaurants.blade.edit');
     Route::put('restaurants/blade/{restaurant}', [\App\Http\Controllers\Admin\RestaurantAdminBladeController::class, 'update'])->name('restaurants.blade.update');
     Route::delete('restaurants/blade/{restaurant}', [\App\Http\Controllers\Admin\RestaurantAdminBladeController::class, 'destroy'])->name('restaurants.blade.destroy');
+
+    // Zarządzanie dopasowaniami odpowiedzi dla restauracji
+    Route::get('restaurants/{restaurant}/answers', [\App\Http\Controllers\Admin\RestaurantAnswerController::class, 'edit'])->name('restaurants.answers.edit');
+    Route::put('restaurants/{restaurant}/answers', [\App\Http\Controllers\Admin\RestaurantAnswerController::class, 'update'])->name('restaurants.answers.update');
 });

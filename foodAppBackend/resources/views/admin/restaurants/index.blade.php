@@ -135,6 +135,7 @@
                             <td>{{ $restaurant->cuisine }}</td>
                             <td>{{ $restaurant->rating }}</td>
                             <td>
+                                <div><strong>Ogólne: {{ number_format($restaurant->match_score, 1) }}/5</strong></div>
                                 <div>Osoby: {{ $restaurant->match_people_count }}/9</div>
                                 <div>Cena: {{ $restaurant->match_price_per_person }}/9</div>
                                 <div>Posiłek: {{ $restaurant->match_meal_type }}/9</div>
@@ -143,6 +144,7 @@
                             </td>
                             <td>
                                 <a href="{{ route('admin.restaurants.blade.edit', $restaurant->id) }}" class="btn btn-secondary">Edytuj</a>
+                                <a href="{{ route('admin.restaurants.answers.edit', $restaurant->id) }}" class="btn btn-secondary">Dopasowania</a>
                                 <form action="{{ route('admin.restaurants.blade.destroy', $restaurant->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
