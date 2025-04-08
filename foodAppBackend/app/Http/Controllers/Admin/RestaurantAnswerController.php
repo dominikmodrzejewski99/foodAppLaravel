@@ -18,13 +18,13 @@ class RestaurantAnswerController extends Controller
     {
         // Pobierz wszystkie pytania z odpowiedziami
         $questions = Question::with('answers')->get();
-        
+
         // Pobierz aktualne dopasowania dla restauracji
         $currentMatches = $restaurant->answers()
             ->get()
             ->pluck('pivot.relevance_score', 'id')
             ->toArray();
-        
+
         return view('admin.restaurants.answers', [
             'restaurant' => $restaurant,
             'questions' => $questions,
@@ -38,7 +38,7 @@ class RestaurantAnswerController extends Controller
     public function update(Request $request, Restaurant $restaurant)
     {
         $matches = $request->input('matches', []);
-        
+
         // Aktualizuj dopasowania
         foreach ($matches as $answerId => $score) {
             // Sprawdź, czy odpowiedź istnieje
@@ -46,63 +46,30 @@ class RestaurantAnswerController extends Controller
             if (!$answer) {
                 continue;
             }
-            
+
             // Aktualizuj lub utwórz powiązanie
             $restaurant->answers()->syncWithoutDetaching([
                 $answerId => ['relevance_score' => (int)$score]
             ]);
         }
-        
-        // Przelicz i zaktualizuj ogólny poziom dopasowania restauracji
-        $this->updateOverallMatchScore($restaurant);
-        
+
+        // Nie przeliczamy już ogólnego poziomu dopasowania restauracji
+        // Dopasowania są przechowywane per odpowiedź i obliczane dynamicznie po stronie frontendu
+
         return redirect()->route('admin.restaurants.answers.edit', $restaurant->id)
             ->with('message', 'Dopasowania zostały zaktualizowane pomyślnie.');
     }
-    
+
     /**
      * Przelicz i zaktualizuj ogólny poziom dopasowania restauracji
+     *
+     * Uwaga: Ta metoda nie jest już używana, ponieważ dopasowania są przechowywane per odpowiedź
+     * i obliczane dynamicznie po stronie frontendu na podstawie wybranych odpowiedzi użytkownika.
      */
     private function updateOverallMatchScore(Restaurant $restaurant)
     {
-        // Pobierz wszystkie dopasowania dla restauracji
-        $matches = $restaurant->answers()
-            ->get(['answers.id', 'relevance_score', 'question_id']);
-        
-        if ($matches->isEmpty()) {
-            return;
-        }
-        
-        // Grupuj odpowiedzi według pytań i oblicz średnią ocenę dla każdego pytania
-        $questionScores = [];
-        foreach ($matches as $match) {
-            $questionId = $match->question_id;
-            if (!isset($questionScores[$questionId])) {
-                $questionScores[$questionId] = ['sum' => 0, 'count' => 0];
-            }
-            $questionScores[$questionId]['sum'] += $match->pivot->relevance_score;
-            $questionScores[$questionId]['count']++;
-        }
-        
-        // Oblicz średnią ocenę dla każdego pytania
-        $totalScore = 0;
-        $questionCount = 0;
-        foreach ($questionScores as $scores) {
-            if ($scores['count'] > 0) {
-                $totalScore += $scores['sum'] / $scores['count'];
-                $questionCount++;
-            }
-        }
-        
-        // Oblicz ogólną ocenę dopasowania (skala 0-5)
-        $overallScore = 0;
-        if ($questionCount > 0) {
-            // Przelicz z skali 0-10 na skalę 0-5
-            $overallScore = ($totalScore / $questionCount) * 0.5;
-        }
-        
-        // Zaktualizuj restaurację
-        $restaurant->match_score = $overallScore;
-        $restaurant->save();
+        // Ta metoda jest pozostawiona dla kompatybilności wstecznej, ale nie jest już używana
+        // Dopasowania są przechowywane per odpowiedź w tabeli answer_restaurant
+        // i obliczane dynamicznie po stronie frontendu na podstawie wybranych odpowiedzi użytkownika
     }
 }

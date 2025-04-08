@@ -175,8 +175,8 @@
                 </div>
                 <div class="restaurant-detail">
                     <div>Ocena: {{ $restaurant->rating }}/5</div>
-                    <div>Ogólny poziom dopasowania:</div>
-                    <div class="match-score">{{ number_format($restaurant->match_score, 1) }}/5</div>
+                    <div>Dopasowania są przechowywane per odpowiedź</div>
+                    <div class="match-score">i obliczane dynamicznie</div>
                 </div>
             </div>
 
@@ -192,12 +192,12 @@
                                 <div class="answer-item">
                                     <div class="answer-text">{{ $answer->answer_text }}</div>
                                     <div class="range-container">
-                                        <input 
-                                            type="range" 
-                                            name="matches[{{ $answer->id }}]" 
-                                            min="0" 
-                                            max="10" 
-                                            value="{{ $currentMatches[$answer->id] ?? 5 }}" 
+                                        <input
+                                            type="range"
+                                            name="matches[{{ $answer->id }}]"
+                                            min="0"
+                                            max="10"
+                                            value="{{ $currentMatches[$answer->id] ?? 5 }}"
                                             oninput="this.nextElementSibling.textContent = this.value"
                                         >
                                         <span class="range-value">{{ $currentMatches[$answer->id] ?? 5 }}</span>

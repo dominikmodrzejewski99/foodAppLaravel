@@ -15,4 +15,4 @@ Route::get('/questions', [PollController::class, 'getQuestions']);
 Route::get('/answers', [PollController::class, 'getAnswers']);
 
 // Trasa do obliczania dopasowania restauracji
-Route::post('/matching', [\App\Http\Controllers\MatchingController::class, 'calculateMatching']);
+Route::post('/matching', [\App\Http\Controllers\Api\MatchingController::class, 'calculateMatching']);

@@ -13,6 +13,9 @@ class QuestionsTableSeeder extends Seeder
      */
     public function run()
     {
+        // Usuwamy wszystkie pytania przed dodaniem nowych
+        DB::table('questions')->delete();
+
         DB::table('questions')->insert([
             ['question_text' => 'Ilość osób'],
             ['question_text' => 'Maksymalna kwota na osobę'],

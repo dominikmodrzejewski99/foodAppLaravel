@@ -97,6 +97,64 @@
             font-size: 0.875rem;
             margin-top: 0.25rem;
         }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+        }
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom-color: #ef4444;
+            color: #ef4444;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .question-section {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+        .question-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .answer-item {
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            background-color: #f9fafb;
+        }
+        .answer-text {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .range-value {
+            display: inline-block;
+            width: 2rem;
+            text-align: center;
+            font-weight: 600;
+        }
         .form-row {
             display: flex;
             gap: 1rem;
@@ -123,118 +181,103 @@
                 <h2 class="card-title">Dodaj Restaurację</h2>
             </div>
 
+            <div class="tabs">
+                <div class="tab active" data-tab="basic-info">Podstawowe informacje</div>
+                <div class="tab" data-tab="matching">Dopasowania odpowiedzi</div>
+            </div>
+
             <form action="{{ route('admin.restaurants.blade.store') }}" method="POST">
                 @csrf
 
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="name">Nazwa</label>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}" required>
-                            @error('name')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
+                <div id="basic-info" class="tab-content active">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="name">Nazwa</label>
+                                <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Adres</label>
+                                <input type="text" id="address" name="address" value="{{ old('address') }}" required>
+                                @error('address')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">Miasto</label>
+                                <input type="text" id="city" name="city" value="{{ old('city') }}" required>
+                                @error('city')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="address">Adres</label>
-                            <input type="text" id="address" name="address" value="{{ old('address') }}" required>
-                            @error('address')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="cuisine">Kuchnia</label>
+                                <input type="text" id="cuisine" name="cuisine" value="{{ old('cuisine') }}" required>
+                                @error('cuisine')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                        <div class="form-group">
-                            <label for="city">Miasto</label>
-                            <input type="text" id="city" name="city" value="{{ old('city') }}" required>
-                            @error('city')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
+                            <div class="form-group">
+                                <label for="rating">Ocena (0-5)</label>
+                                <input type="number" id="rating" name="rating" value="{{ old('rating') }}" min="0" max="5" step="0.1">
+                                @error('rating')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                        <div class="form-group">
-                            <label for="cuisine">Kuchnia</label>
-                            <input type="text" id="cuisine" name="cuisine" value="{{ old('cuisine') }}" required>
-                            @error('cuisine')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="rating">Ocena (0-5)</label>
-                            <input type="number" id="rating" name="rating" value="{{ old('rating') }}" min="0" max="5" step="0.1">
-                            @error('rating')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="website">Strona internetowa</label>
-                            <input type="text" id="website" name="website" value="{{ old('website') }}">
-                            @error('website')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
+                            <div class="form-group">
+                                <label for="website">Strona internetowa</label>
+                                <input type="text" id="website" name="website" value="{{ old('website') }}">
+                                @error('website')
+                                    <div class="error">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-col">
-                        <h3>Wartości dopasowania (0-9)</h3>
+                    <!-- Ukryte pola dla kompatybilności wstecznej -->
+                    <input type="hidden" name="match_people_count" value="5">
+                    <input type="hidden" name="match_price_per_person" value="5">
+                    <input type="hidden" name="match_meal_type" value="5">
+                    <input type="hidden" name="match_visit_purpose" value="5">
+                    <input type="hidden" name="match_dietary_preferences" value="5">
+                </div>
 
-                        <div class="form-group">
-                            <label for="match_people_count">Dopasowanie do ilości osób</label>
-                            <div>
-                                <input type="range" id="match_people_count" name="match_people_count" value="{{ old('match_people_count', 5) }}" min="0" max="9" oninput="this.nextElementSibling.textContent = this.value">
-                                <span class="range-value">5</span>
-                            </div>
-                            @error('match_people_count')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
+                <div id="matching" class="tab-content">
+                    <p>Ustaw poziom dopasowania restauracji do każdej odpowiedzi (0-10):</p>
 
-                        <div class="form-group">
-                            <label for="match_price_per_person">Dopasowanie do ceny na osobę</label>
-                            <div>
-                                <input type="range" id="match_price_per_person" name="match_price_per_person" value="{{ old('match_price_per_person', 5) }}" min="0" max="9" oninput="this.nextElementSibling.textContent = this.value">
-                                <span class="range-value">5</span>
+                    @foreach($questions as $question)
+                        <div class="question-section">
+                            <div class="question-title">{{ $question->question_text }}</div>
+                            <div class="answers-grid">
+                                @foreach($question->answers as $answer)
+                                    <div class="answer-item">
+                                        <div class="answer-text">{{ $answer->answer_text }}</div>
+                                        <div class="range-container">
+                                            <input
+                                                type="range"
+                                                name="answer_matches[{{ $answer->id }}]"
+                                                min="0"
+                                                max="10"
+                                                value="{{ old('answer_matches.' . $answer->id, 5) }}"
+                                                oninput="this.nextElementSibling.textContent = this.value"
+                                            >
+                                            <span class="range-value">5</span>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            @error('match_price_per_person')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
                         </div>
-
-                        <div class="form-group">
-                            <label for="match_meal_type">Dopasowanie do rodzaju posiłku</label>
-                            <div>
-                                <input type="range" id="match_meal_type" name="match_meal_type" value="{{ old('match_meal_type', 5) }}" min="0" max="9" oninput="this.nextElementSibling.textContent = this.value">
-                                <span class="range-value">5</span>
-                            </div>
-                            @error('match_meal_type')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="match_visit_purpose">Dopasowanie do celu wizyty</label>
-                            <div>
-                                <input type="range" id="match_visit_purpose" name="match_visit_purpose" value="{{ old('match_visit_purpose', 5) }}" min="0" max="9" oninput="this.nextElementSibling.textContent = this.value">
-                                <span class="range-value">5</span>
-                            </div>
-                            @error('match_visit_purpose')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="match_dietary_preferences">Dopasowanie do preferencji dietetycznych</label>
-                            <div>
-                                <input type="range" id="match_dietary_preferences" name="match_dietary_preferences" value="{{ old('match_dietary_preferences', 5) }}" min="0" max="9" oninput="this.nextElementSibling.textContent = this.value">
-                                <span class="range-value">5</span>
-                            </div>
-                            @error('match_dietary_preferences')
-                                <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 <div class="form-actions">
@@ -246,11 +289,30 @@
     </div>
 
     <script>
-        // Inicjalizacja wartości dla suwaków
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicjalizacja wartości dla suwaków
             const ranges = document.querySelectorAll('input[type="range"]');
             ranges.forEach(range => {
                 range.nextElementSibling.textContent = range.value;
+            });
+
+            // Obsługa zakładek
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Usuń klasę active ze wszystkich zakładek
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Dodaj klasę active do klikniętej zakładki
+                    this.classList.add('active');
+
+                    // Ukryj wszystkie zawartości zakładek
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    // Pokaż zawartość odpowiadającą klikniętej zakładce
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
             });
         });
     </script>

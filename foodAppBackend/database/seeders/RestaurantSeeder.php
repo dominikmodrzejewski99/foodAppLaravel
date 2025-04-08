@@ -5,13 +5,17 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class RestaurantSeeder extends Seeder
 {
     public function run(): void
     {
-        // Najpierw usuwamy wszystkie powiązania z tabeli answer_restaurant
-        DB::table('answer_restaurant')->delete();
+        // Sprawdzamy, czy tabela answer_restaurant istnieje
+        if (Schema::hasTable('answer_restaurant')) {
+            // Usuwamy wszystkie powiązania z tabeli answer_restaurant
+            DB::table('answer_restaurant')->delete();
+        }
 
         // Następnie usuwamy wszystkie istniejące restauracje
         DB::table('restaurants')->delete();

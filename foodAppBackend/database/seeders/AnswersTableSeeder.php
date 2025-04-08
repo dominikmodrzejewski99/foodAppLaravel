@@ -13,6 +13,9 @@ class AnswersTableSeeder extends Seeder
      */
     public function run()
     {
+        // Usuwamy wszystkie odpowiedzi przed dodaniem nowych
+        DB::table('answers')->delete();
+
         $questions = DB::table('questions')->get();
 
         $answers = [];
