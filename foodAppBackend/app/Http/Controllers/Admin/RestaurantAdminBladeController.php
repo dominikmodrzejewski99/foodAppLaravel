@@ -56,11 +56,31 @@ class RestaurantAdminBladeController extends Controller
         // Utwórz restaurację
         $restaurant = Restaurant::create($validated);
 
-        // Zapisz dopasowania odpowiedzi
-        if ($request->has('answer_matches')) {
-            $answerMatches = $request->input('answer_matches');
+        // Pobierz wszystkie odpowiedzi
+        $allAnswers = \App\Models\Answer::all();
 
-            foreach ($answerMatches as $answerId => $relevanceScore) {
+        // Przygotuj domyślne wartości dopasowań
+        $defaultMatches = [];
+        foreach ($allAnswers as $answer) {
+            if ($answer->answer_text === 'Jest mi to obojętne' || $answer->answer_text === 'Nie liczę się z kosztami') {
+                $defaultMatches[$answer->id] = 10;
+            } else {
+                $defaultMatches[$answer->id] = 0;
+            }
+        }
+
+        // Zapisz dopasowania odpowiedzi
+        $answerMatches = $request->input('answer_matches', []);
+
+        // Połącz domyślne wartości z wartościami z formularza
+        $finalMatches = array_merge($defaultMatches, $answerMatches);
+
+        // Pobierz wszystkie prawidłowe identyfikatory odpowiedzi
+        $validAnswerIds = $allAnswers->pluck('id')->toArray();
+
+        foreach ($finalMatches as $answerId => $relevanceScore) {
+            // Upewnij się, że answerId jest prawidłowym identyfikatorem odpowiedzi
+            if (in_array($answerId, $validAnswerIds)) {
                 $restaurant->answers()->attach($answerId, [
                     'relevance_score' => $relevanceScore,
                     'created_at' => now(),
@@ -88,6 +108,21 @@ class RestaurantAdminBladeController extends Controller
         $currentMatches = [];
         foreach ($restaurant->answers as $answer) {
             $currentMatches[$answer->id] = $answer->pivot->relevance_score;
+        }
+
+        // Pobierz wszystkie odpowiedzi
+        $allAnswers = \App\Models\Answer::all();
+
+        // Ustaw domyślne wartości dla odpowiedzi, które nie mają jeszcze dopasowania
+        foreach ($allAnswers as $answer) {
+            if (!isset($currentMatches[$answer->id])) {
+                // Ustaw 10 dla odpowiedzi "Jest mi to obojętne" i "Nie liczę się z kosztami", 0 dla pozostałych
+                if ($answer->answer_text === 'Jest mi to obojętne' || $answer->answer_text === 'Nie liczę się z kosztami') {
+                    $currentMatches[$answer->id] = 10;
+                } else {
+                    $currentMatches[$answer->id] = 0;
+                }
+            }
         }
 
         return view('admin.restaurants.edit', [
@@ -121,15 +156,35 @@ class RestaurantAdminBladeController extends Controller
         // Aktualizuj restaurację
         $restaurant->update($validated);
 
-        // Aktualizuj dopasowania odpowiedzi
-        if ($request->has('answer_matches')) {
-            $answerMatches = $request->input('answer_matches');
+        // Pobierz wszystkie odpowiedzi
+        $allAnswers = \App\Models\Answer::all();
 
-            // Usuń wszystkie istniejące dopasowania
-            $restaurant->answers()->detach();
+        // Przygotuj domyślne wartości dopasowań
+        $defaultMatches = [];
+        foreach ($allAnswers as $answer) {
+            if ($answer->answer_text === 'Jest mi to obojętne' || $answer->answer_text === 'Nie liczę się z kosztami') {
+                $defaultMatches[$answer->id] = 10;
+            } else {
+                $defaultMatches[$answer->id] = 0;
+            }
+        }
 
-            // Dodaj nowe dopasowania
-            foreach ($answerMatches as $answerId => $relevanceScore) {
+        // Zapisz dopasowania odpowiedzi
+        $answerMatches = $request->input('answer_matches', []);
+
+        // Połącz domyślne wartości z wartościami z formularza
+        $finalMatches = array_merge($defaultMatches, $answerMatches);
+
+        // Usuń wszystkie istniejące dopasowania
+        $restaurant->answers()->detach();
+
+        // Pobierz wszystkie prawidłowe identyfikatory odpowiedzi
+        $validAnswerIds = $allAnswers->pluck('id')->toArray();
+
+        // Dodaj nowe dopasowania
+        foreach ($finalMatches as $answerId => $relevanceScore) {
+            // Upewnij się, że answerId jest prawidłowym identyfikatorem odpowiedzi
+            if (in_array($answerId, $validAnswerIds)) {
                 $restaurant->answers()->attach($answerId, [
                     'relevance_score' => $relevanceScore,
                     'created_at' => now(),

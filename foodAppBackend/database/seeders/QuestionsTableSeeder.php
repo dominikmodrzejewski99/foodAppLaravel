@@ -17,11 +17,14 @@ class QuestionsTableSeeder extends Seeder
         DB::table('questions')->delete();
 
         DB::table('questions')->insert([
-            ['question_text' => 'Ilość osób'],
-            ['question_text' => 'Maksymalna kwota na osobę'],
-            ['question_text' => 'Rodzaj posiłku'],
-            ['question_text' => 'Cel wizyty'],
-            ['question_text' => 'Preferencje dietetyczne'],
+            ['question_text' => 'Z kim wybierasz się do restauracji?'],
+            ['question_text' => 'Jaki masz budżet na osobę?'],
+            ['question_text' => 'O jakiej porze planujesz wizytę?'],
+            ['question_text' => 'Jaki jest cel Twojej wizyty?'],
+            ['question_text' => 'Jakiego klimatu szukasz?'],
+            ['question_text' => 'Jakie doświadczenie kulinarne Cię interesuje?'],
+            ['question_text' => 'Jakie dodatki są dla Ciebie ważne?'],
+            ['question_text' => 'Na ile ważna jest cisza i prywatność?'],
         ]);
     }
 }

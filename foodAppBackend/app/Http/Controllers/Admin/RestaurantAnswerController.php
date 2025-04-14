@@ -25,6 +25,21 @@ class RestaurantAnswerController extends Controller
             ->pluck('pivot.relevance_score', 'id')
             ->toArray();
 
+        // Pobierz wszystkie odpowiedzi
+        $allAnswers = Answer::all();
+
+        // Ustaw domyślne wartości dla odpowiedzi, które nie mają jeszcze dopasowania
+        foreach ($allAnswers as $answer) {
+            if (!isset($currentMatches[$answer->id])) {
+                // Ustaw 10 dla odpowiedzi "Jest mi to obojętne" i "Nie liczę się z kosztami", 0 dla pozostałych
+                if ($answer->answer_text === 'Jest mi to obojętne' || $answer->answer_text === 'Nie liczę się z kosztami') {
+                    $currentMatches[$answer->id] = 10;
+                } else {
+                    $currentMatches[$answer->id] = 0;
+                }
+            }
+        }
+
         return view('admin.restaurants.answers', [
             'restaurant' => $restaurant,
             'questions' => $questions,
